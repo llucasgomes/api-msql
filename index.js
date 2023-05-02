@@ -18,7 +18,10 @@ const db = mysql.createConnection({
 });
 
 app.get("/", (req, res) => {
-  return res.json("hello world");
+  res.json({
+    success: true,
+    message: "Sucesso!",
+  });
 });
 
 app.get("/users", (req, res) => {
