@@ -80,6 +80,28 @@ app.get("/project", (req, res) => {
   });
 });
 
+//  ===========   POSTS   ================
+app.post("/profile", (req, res) => {
+  const q =
+    "INSERT INTO profile(`image`, `name`, `middle_name`, `last_name`, `birthday`, `job`, `phone`, `email`) VALUES (?)";
+
+  const values = [
+    req.body.image,
+    req.body.name,
+    req.body.middle_name,
+    req.body.last_name,
+    req.body.birthday,
+    req.body.job,
+    req.body.phone,
+    req.body.email,
+  ];
+
+  db.query(q, [values], (err, data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+});
+
 app.post("/users", (req, res) => {
   const { name, email } = req.body;
 
