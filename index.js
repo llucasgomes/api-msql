@@ -24,8 +24,16 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/users", (req, res) => {
-  return res.json(users);
+// MOSTRAR PROFILE ===========================
+app.get("/profile", (req, res) => {
+  const q = "SELECT * FROM profile";
+  db.query(q, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
 });
 
 app.post("/users", (req, res) => {
