@@ -24,9 +24,53 @@ app.get("/", (req, res) => {
   });
 });
 
-// MOSTRAR PROFILE ===========================
+//  ===========   GETS   ================
 app.get("/profile", (req, res) => {
   const q = "SELECT * FROM profile";
+  db.query(q, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.get("/skills", (req, res) => {
+  const q = "SELECT * FROM skills";
+  db.query(q, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.get("/education", (req, res) => {
+  const q = "SELECT * FROM education";
+  db.query(q, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.get("/experience", (req, res) => {
+  const q = "SELECT * FROM experience";
+  db.query(q, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.get("/project", (req, res) => {
+  const q = "SELECT * FROM projects";
   db.query(q, (err, data) => {
     if (err) {
       console.log(err);
