@@ -1,13 +1,21 @@
 import express from "express";
 import cors from "cors";
+import mysql from "mysql";
 
 const app = express();
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
 const port = process.env.PORT || 3001;
 
 const users = [];
+const db = mysql.createConnection({
+  host: "db4free.net",
+  user: "llucasgomes",
+  password: "_*W5DvSvT2$mvmW",
+  database: "portiflio",
+  port: 3306,
+});
 
 app.get("/", (req, res) => {
   return res.json("hello world");
