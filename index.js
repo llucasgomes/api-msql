@@ -1,10 +1,14 @@
 import express from "express";
 import cors from "cors";
 import mysql from "mysql";
+import multer from "multer";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 const port = process.env.PORT || 3001;
 
@@ -81,12 +85,12 @@ app.get("/project", (req, res) => {
 });
 
 //  ===========   POSTS   ================
-app.post("/profile", (req, res) => {
+app.post("/profile", upload.single("imagem"), (req, res) => {
   const q =
     "INSERT INTO profile(`image`, `name`, `middle_name`, `last_name`, `birthday`, `job`, `phone`, `email`) VALUES (?)";
 
   const values = [
-    req.body.image,
+    req.file.buffer.toString("base64"),
     req.body.name,
     req.body.middle_name,
     req.body.last_name,
@@ -101,10 +105,14 @@ app.post("/profile", (req, res) => {
     return res.json(data);
   });
 });
-app.post("/skills", (req, res) => {
+app.post("/skills", upload.single("imagem"), (req, res) => {
   const q = "INSERT INTO skills(`image`, `title`, `description`) VALUES (?)";
 
-  const values = [req.body.image, req.body.title, req.body.description];
+  const values = [
+    req.file.buffer.toString("base64"),
+    req.body.title,
+    req.body.description,
+  ];
 
   db.query(q, [values], (err, data) => {
     if (err) return res.send(err);
@@ -140,11 +148,11 @@ app.post("/experience", (req, res) => {
     return res.json(data);
   });
 });
-app.post("/project", (req, res) => {
+app.post("/project", upload.single("image"), (req, res) => {
   const q =
     "INSERT INTO projects (`image`,`title`,`description`,`github`,`page`) VALUES (?)";
   const values = [
-    req.body.image,
+    req.file.buffer.toString("base64"),
     req.body.title,
     req.body.description,
     req.body.github,
@@ -158,13 +166,13 @@ app.post("/project", (req, res) => {
 
 //  ===========   PUTS   ================
 
-app.put("/profile/:id", (req, res) => {
+app.put("/profile/:id", upload.single("image"), (req, res) => {
   const profileId = req.params.id;
   const q =
     "UPDATE profile SET `image`= ?, `name`= ?, `middle_name`= ?, `last_name`= ?, `birthday`= ?, `job`= ?, `phone`= ?, `email`= ? WHERE id = ?";
 
   const values = [
-    req.body.image,
+    req.file.buffer.toString("base64"),
     req.body.name,
     req.body.middle_name,
     req.body.last_name,
@@ -217,13 +225,13 @@ app.put("/experience/:id", (req, res) => {
   });
 });
 
-app.put("/project/:id", (req, res) => {
+app.put("/project/:id", upload.single("image"), (req, res) => {
   const projectId = req.params.id;
   const q =
     "UPDATE projects SET `image`= ?,`title`= ?, `description`= ?, `github`= ?, `page`= ? WHERE id = ?";
 
   const values = [
-    req.body.image,
+    req.file.buffer.toString("base64"),
     req.body.title,
     req.body.description,
     req.body.github,
