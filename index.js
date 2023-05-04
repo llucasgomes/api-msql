@@ -105,7 +105,7 @@ app.post("/profile", upload.single("imagem"), (req, res) => {
     return res.json(data);
   });
 });
-app.post("/skills", upload.single("imagem"), (req, res) => {
+app.post("/skills", upload.single("image"), (req, res) => {
   const q = "INSERT INTO skills(`image`, `title`, `description`) VALUES (?)";
 
   const values = [
