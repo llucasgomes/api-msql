@@ -285,4 +285,14 @@ app.delete("/project/:id", (req, res) => {
   });
 });
 
+app.delete("/skills/:id", (req, res) => {
+  const projectId = req.params.id;
+  const q = " DELETE FROM skills WHERE id = ? ";
+
+  db.query(q, [projectId], (err, data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+});
+
 app.listen(port, () => console.log(`listening on ${port}`));
